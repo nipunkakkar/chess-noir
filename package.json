@@ -1,0 +1,13 @@
+{
+  "name": "chess-noir",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "A beautiful chess table for two. Same-device play and private online rooms.",
+  "scripts": {
+    "dev": "node scripts/serve.js",
+    "test": "node --test tests/*.test.js",
+    "check": "node --check app.js && node --check game.js && node --check network.js && node --check pieces.js && node --check audio.js"
+  },
+  "dependencies": { "chess.js": "1.4.0" }
+}

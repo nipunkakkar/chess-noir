@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#131b18">
+  <meta name="description" content="A little strategy. A little rivalry. Play beautiful two-player chess on one device or invite a friend to a private online room.">
+  <meta property="og:title" content="Chess Noir — your move, good company">
+  <meta property="og:description" content="Two players. Endless possibilities. A beautiful chess table for you and a friend.">
+  <title>Chess Noir — Nipun’s games</title>
+  <link rel="icon" href="./favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./styles.css?v=1.0.0">
+</head>
+<body>
+  <a class="skip-link" href="#board">Skip to chessboard</a>
+  <div class="ambient ambient-one" aria-hidden="true"></div><div class="ambient ambient-two" aria-hidden="true"></div>
+  <div class="shell">
+    <header class="site-header">
+      <a class="brand" href="https://nipunkakkar.github.io/"><span class="brand-mark">n.</span><span>Nipun’s games <span class="brand-divider">/</span> <strong>Chess Noir</strong></span></a>
+      <div class="header-actions"><span class="two-seats"><i></i> A TABLE FOR TWO</span><button id="help-button" class="text-button">How to play <span aria-hidden="true">↗</span></button></div>
+    </header>
+    <main>
+      <section class="intro">
+        <div><p class="eyebrow"><span aria-hidden="true">✦</span> THE QUIET THRILL OF A GOOD MOVE</p><h1>Chess <em>Noir.</em></h1><p class="intro-copy">A little strategy. A little rivalry. Good company.</p></div>
+        <div class="intro-note"><span aria-hidden="true">♔</span><p>Two minds.<br>Endless possibilities.</p></div>
+      </section>
+      <div class="table-layout">
+        <section class="table" aria-label="Chess table">
+          <div class="table-heading"><span><i class="live-dot"></i><span id="mode-label">SAME DEVICE</span></span><span id="table-label">THE EMERALD TABLE</span></div>
+          <div class="player" id="player-b"><div class="avatar black-avatar" aria-hidden="true">♚</div><div class="player-info"><div><strong id="name-b">Black</strong><span class="side-label">OBSIDIAN</span></div><div id="captures-b" class="captures" aria-label="Pieces captured by Black"></div></div><span id="turn-b" class="turn-badge">YOUR MOVE</span><span id="clock-b" class="clock">∞</span></div>
+          <div class="board-frame"><div id="board" class="board" role="group" aria-label="Chessboard. White to move." tabindex="-1"></div><div id="effects" class="effects" aria-hidden="true"></div></div>
+          <div class="player active-player" id="player-w"><div class="avatar white-avatar" aria-hidden="true">♔</div><div class="player-info"><div><strong id="name-w">White</strong><span class="side-label">IVORY</span></div><div id="captures-w" class="captures" aria-label="Pieces captured by White"></div></div><span id="turn-w" class="turn-badge">YOUR MOVE</span><span id="clock-w" class="clock">∞</span></div>
+          <div class="board-tools"><button id="flip-button" class="text-button"><span aria-hidden="true">⇅</span> Flip board</button><span id="board-hint">Select a piece to see its moves</span><button id="sound-button" class="text-button" aria-pressed="false"><span aria-hidden="true">♪</span> Sound off</button></div>
+        </section>
+        <aside class="sidebar" aria-label="Game details and controls">
+          <section class="status-panel panel"><div class="panel-eyebrow"><span id="session-label">LET’S PLAY</span><span class="tiny-star" aria-hidden="true">✦</span></div><div class="status-heading"><span id="status-icon" class="status-icon" aria-hidden="true">♔</span><h2 id="status-title">White to move</h2></div><p id="status-detail">Every great game begins with a single move.</p><button id="new-game-button" class="primary-button"><span aria-hidden="true">＋</span> New game <span aria-hidden="true">↗</span></button><div class="status-foot"><span id="time-label">∞ Untimed</span><span id="connection-label">2 players · one device</span></div></section>
+          <section id="room-panel" class="room-panel panel" hidden><p class="panel-eyebrow">YOUR PRIVATE TABLE</p><div class="room-code"><strong id="room-code"></strong><button id="copy-button" class="icon-button" aria-label="Copy invitation link">↗</button></div><p id="room-message">Send the invitation link to a friend.</p><button id="reconnect-button" class="text-button" hidden>Reconnect to room ↻</button></section>
+          <section class="history-panel panel"><div class="history-heading"><h2>Move journal</h2><span id="move-count">00 MOVES</span></div><div class="journal-columns"><span>#</span><span>IVORY</span><span>OBSIDIAN</span></div><div id="history" class="history"><div class="empty-journal"><span aria-hidden="true">♙</span><p>A blank page.<br>Your opening is waiting.</p></div></div><button id="export-button" class="text-button export-button" disabled>Download game <span aria-hidden="true">↓</span></button></section>
+          <div class="game-actions"><button id="undo-button" class="secondary-button" disabled>↶ Take back</button><button id="draw-button" class="secondary-button">½ Offer draw</button><button id="resign-button" class="text-button resign-button">Resign</button></div>
+          <p class="table-note"><span aria-hidden="true">✧</span> Take your time. Find your move.</p>
+        </aside>
+      </div>
+      <div id="announcement" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+    </main>
+    <footer><a href="https://nipunkakkar.github.io/">← All the games</a><span>Made for a little friendly rivalry <span class="footer-star">✦</span> by Nipun</span><a href="https://github.com/nipunkakkar/chess-noir">Source ↗</a></footer>
+  </div>
+  <dialog id="setup-dialog" class="setup-dialog">
+    <form id="setup-form">
+      <div class="dialog-top"><p class="eyebrow">PULL UP A CHAIR</p><button type="button" class="close-button" data-close aria-label="Close">×</button></div>
+      <h2>A new <em>rivalry.</em></h2><p class="dialog-copy">Same table, or a little further apart.</p>
+      <div class="mode-tabs" role="group" aria-label="Play mode"><button type="button" data-mode="local" class="selected" aria-pressed="true">One device</button><button type="button" data-mode="host" aria-pressed="false">Create room</button><button type="button" data-mode="join" aria-pressed="false">Join room</button></div>
+      <div class="form-grid"><label id="white-name-label">White player<input id="white-name" maxlength="24" placeholder="White" autocomplete="off"></label><label id="black-name-label">Black player<input id="black-name" maxlength="24" placeholder="Black" autocomplete="off"></label></div>
+      <label id="code-label" hidden>Invitation code<input id="join-code" placeholder="e.g. AB12CD34EF" maxlength="10" autocomplete="off" spellcheck="false"></label>
+      <label id="time-control-label">The pace<select id="time-control"><option value="none">No clock · enjoy the game</option><option value="rapid">Rapid · 10 minutes</option><option value="blitz">Blitz · 5 minutes + 3 seconds</option><option value="relaxed">Leisurely · 15 minutes + 10 seconds</option></select></label>
+      <p id="mode-description" class="mode-description">Pass the device between turns. White makes the first move.</p>
+      <p id="setup-error" class="form-error" role="alert"></p><button id="start-button" class="primary-button" type="submit">Set the table <span aria-hidden="true">↗</span></button>
+    </form>
+  </dialog>
+  <dialog id="promotion-dialog"><p class="eyebrow">A WELL-EARNED UPGRADE</p><h2>Choose your piece.</h2><p class="dialog-copy">Your pawn has reached the other side.</p><div id="promotion-choices" class="promotion-choices"></div><button id="cancel-promotion" class="text-button">Cancel</button></dialog>
+  <dialog id="confirm-dialog"><p class="eyebrow">A MOMENT AT THE TABLE</p><h2 id="confirm-title"></h2><p id="confirm-copy" class="dialog-copy"></p><div class="confirm-actions"><button id="confirm-cancel" class="secondary-button">Keep playing</button><button id="confirm-accept" class="primary-button">Confirm</button></div></dialog>
+  <dialog id="result-dialog" class="result-dialog"><button type="button" class="close-button" data-close aria-label="Close">×</button><div class="result-emblem" aria-hidden="true">♔</div><p class="eyebrow">A GAME TO REMEMBER</p><h2 id="result-title"></h2><p id="result-detail" class="dialog-copy"></p><button id="rematch-button" class="primary-button">Play again <span aria-hidden="true">↗</span></button><button class="text-button" data-close>Return to the board</button></dialog>
+  <dialog id="help-dialog"><div class="dialog-top"><p class="eyebrow">WELCOME TO THE TABLE</p><button class="close-button" data-close aria-label="Close">×</button></div><h2>Your move.</h2><p class="dialog-copy">Select a piece, then a highlighted square. You can also drag a piece. On a keyboard, use the arrow keys to move around the board and Enter or Space to select.</p><ul class="help-list"><li><strong>Protect your king.</strong> You cannot make a move that leaves your king in check. Checkmate wins the game.</li><li><strong>The special moves are here.</strong> Castle by moving your king two squares. En passant and all four promotion choices are supported.</li><li><strong>Play together.</strong> Share one device, or create a private room and send your friend the invitation link. The host plays White. Keep the host’s tab open; a disconnect pauses the game.</li><li><strong>Make it your game.</strong> Choose a clock when starting. The clock begins after White’s first move. Takebacks are available on the same device. A draw needs both players’ agreement.</li><li><strong>Draws.</strong> Stalemate, insufficient material, threefold repetition and the fifty-move rule end the game automatically.</li></ul><p class="help-tip">No sign-up. No downloads. Just you, a friend, and 64 squares.</p></dialog>
+  <div id="toast" class="toast" role="status"></div>
+  <noscript><p class="noscript">Enable JavaScript to play Chess Noir.</p></noscript>
+  <script src="./vendor/itty-sockets.js"></script>
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
