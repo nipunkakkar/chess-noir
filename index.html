@@ -3,46 +3,41 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#131b18">
+  <meta name="theme-color" content="#302e2b">
   <meta name="description" content="A little strategy. A little rivalry. Play beautiful two-player chess on one device or invite a friend to a private online room.">
   <meta property="og:title" content="Chess Noir — your move, good company">
   <meta property="og:description" content="Two players. Endless possibilities. A beautiful chess table for you and a friend.">
   <title>Chess Noir — Nipun’s games</title>
   <link rel="icon" href="./favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="./styles.css?v=1.0.0">
+  <link rel="stylesheet" href="./styles.css?v=1.1.0">
 </head>
 <body>
   <a class="skip-link" href="#board">Skip to chessboard</a>
-  <div class="ambient ambient-one" aria-hidden="true"></div><div class="ambient ambient-two" aria-hidden="true"></div>
   <div class="shell">
     <header class="site-header">
-      <a class="brand" href="https://nipunkakkar.github.io/"><span class="brand-mark">n.</span><span>Nipun’s games <span class="brand-divider">/</span> <strong>Chess Noir</strong></span></a>
-      <div class="header-actions"><span class="two-seats"><i></i> A TABLE FOR TWO</span><button id="help-button" class="text-button">How to play <span aria-hidden="true">↗</span></button></div>
+      <a class="brand" href="./"><span class="brand-mark" aria-hidden="true">♟</span><strong>Chess Noir</strong><span class="brand-byline">by Nipun</span></a>
+      <div class="header-actions"><a class="text-button" href="https://nipunkakkar.github.io/">All games</a><button id="help-button" class="text-button">How to play <span aria-hidden="true">?</span></button></div>
     </header>
     <main>
-      <section class="intro">
-        <div><p class="eyebrow"><span aria-hidden="true">✦</span> THE QUIET THRILL OF A GOOD MOVE</p><h1>Chess <em>Noir.</em></h1><p class="intro-copy">A little strategy. A little rivalry. Good company.</p></div>
-        <div class="intro-note"><span aria-hidden="true">♔</span><p>Two minds.<br>Endless possibilities.</p></div>
-      </section>
       <div class="table-layout">
         <section class="table" aria-label="Chess table">
-          <div class="table-heading"><span><i class="live-dot"></i><span id="mode-label">SAME DEVICE</span></span><span id="table-label">THE EMERALD TABLE</span></div>
-          <div class="player" id="player-b"><div class="avatar black-avatar" aria-hidden="true">♚</div><div class="player-info"><div><strong id="name-b">Black</strong><span class="side-label">OBSIDIAN</span></div><div id="captures-b" class="captures" aria-label="Pieces captured by Black"></div></div><span id="turn-b" class="turn-badge">YOUR MOVE</span><span id="clock-b" class="clock">∞</span></div>
+          <div class="table-heading"><span><i class="live-dot"></i><span id="mode-label">SAME DEVICE</span></span><span id="table-label">GREEN BOARD</span></div>
+          <div class="player" id="player-b"><div class="avatar black-avatar" aria-hidden="true">♟</div><div class="player-info"><div><strong id="name-b">Black</strong><span class="side-label">BLACK</span></div><div id="captures-b" class="captures" aria-label="Pieces captured by Black"></div></div><span id="turn-b" class="turn-badge">TO MOVE</span><span id="clock-b" class="clock">∞</span></div>
           <div class="board-frame"><div id="board" class="board" role="group" aria-label="Chessboard. White to move." tabindex="-1"></div><div id="effects" class="effects" aria-hidden="true"></div></div>
-          <div class="player active-player" id="player-w"><div class="avatar white-avatar" aria-hidden="true">♔</div><div class="player-info"><div><strong id="name-w">White</strong><span class="side-label">IVORY</span></div><div id="captures-w" class="captures" aria-label="Pieces captured by White"></div></div><span id="turn-w" class="turn-badge">YOUR MOVE</span><span id="clock-w" class="clock">∞</span></div>
-          <div class="board-tools"><button id="flip-button" class="text-button"><span aria-hidden="true">⇅</span> Flip board</button><span id="board-hint">Select a piece to see its moves</span><button id="sound-button" class="text-button" aria-pressed="false"><span aria-hidden="true">♪</span> Sound off</button></div>
+          <div class="player active-player" id="player-w"><div class="avatar white-avatar" aria-hidden="true">♙</div><div class="player-info"><div><strong id="name-w">White</strong><span class="side-label">WHITE</span></div><div id="captures-w" class="captures" aria-label="Pieces captured by White"></div></div><span id="turn-w" class="turn-badge">TO MOVE</span><span id="clock-w" class="clock">∞</span></div>
+          <div class="board-tools"><button id="flip-button" class="text-button"><span aria-hidden="true">⇅</span> Flip board</button><span id="board-hint">Select a piece to see its moves</span><button id="sound-button" class="text-button" aria-pressed="true">Sound on</button></div>
         </section>
         <aside class="sidebar" aria-label="Game details and controls">
-          <section class="status-panel panel"><div class="panel-eyebrow"><span id="session-label">LET’S PLAY</span><span class="tiny-star" aria-hidden="true">✦</span></div><div class="status-heading"><span id="status-icon" class="status-icon" aria-hidden="true">♔</span><h2 id="status-title">White to move</h2></div><p id="status-detail">Every great game begins with a single move.</p><button id="new-game-button" class="primary-button"><span aria-hidden="true">＋</span> New game <span aria-hidden="true">↗</span></button><div class="status-foot"><span id="time-label">∞ Untimed</span><span id="connection-label">2 players · one device</span></div></section>
+          <section class="status-panel panel"><h1>Play chess</h1><p class="play-subtitle">Challenge a friend. Make your move.</p><div class="panel-eyebrow"><span id="session-label">LET’S PLAY</span></div><div class="status-heading"><span id="status-icon" class="status-icon" aria-hidden="true">♔</span><h2 id="status-title">White to move</h2></div><p id="status-detail">Select a piece to get started.</p><button id="new-game-button" class="primary-button"><span aria-hidden="true">＋</span> New game</button><div class="status-foot"><span id="time-label">∞ Untimed</span><span id="connection-label">2 players · one device</span></div></section>
           <section id="room-panel" class="room-panel panel" hidden><p class="panel-eyebrow">YOUR PRIVATE TABLE</p><div class="room-code"><strong id="room-code"></strong><button id="copy-button" class="icon-button" aria-label="Copy invitation link">↗</button></div><p id="room-message">Send the invitation link to a friend.</p><button id="reconnect-button" class="text-button" hidden>Reconnect to room ↻</button></section>
-          <section class="history-panel panel"><div class="history-heading"><h2>Move journal</h2><span id="move-count">00 MOVES</span></div><div class="journal-columns"><span>#</span><span>IVORY</span><span>OBSIDIAN</span></div><div id="history" class="history"><div class="empty-journal"><span aria-hidden="true">♙</span><p>A blank page.<br>Your opening is waiting.</p></div></div><button id="export-button" class="text-button export-button" disabled>Download game <span aria-hidden="true">↓</span></button></section>
+          <section class="history-panel panel"><div class="history-heading"><h2>Moves</h2><span id="move-count">00 MOVES</span></div><div class="journal-columns"><span>#</span><span>WHITE</span><span>BLACK</span></div><div id="history" class="history"><div class="empty-journal"><span aria-hidden="true">♙</span><p>Your moves will appear here.</p></div></div><button id="export-button" class="text-button export-button" disabled>Download game <span aria-hidden="true">↓</span></button></section>
           <div class="game-actions"><button id="undo-button" class="secondary-button" disabled>↶ Take back</button><button id="draw-button" class="secondary-button">½ Offer draw</button><button id="resign-button" class="text-button resign-button">Resign</button></div>
-          <p class="table-note"><span aria-hidden="true">✧</span> Take your time. Find your move.</p>
+          <section class="appearance-panel panel" aria-label="Board appearance"><h2>Board style</h2><div class="theme-options" role="group" aria-label="Board color"><button type="button" data-board-theme="green" aria-pressed="true"><span class="theme-preview green-preview" aria-hidden="true"></span><span>Green</span><span class="theme-check" aria-hidden="true">✓</span></button><button type="button" data-board-theme="classic" aria-pressed="false"><span class="theme-preview classic-preview" aria-hidden="true"></span><span>Classic</span><span class="theme-check" aria-hidden="true">✓</span></button></div></section>
         </aside>
       </div>
       <div id="announcement" class="sr-only" aria-live="polite" aria-atomic="true"></div>
     </main>
-    <footer><a href="https://nipunkakkar.github.io/">← All the games</a><span>Made for a little friendly rivalry <span class="footer-star">✦</span> by Nipun</span><a href="https://github.com/nipunkakkar/chess-noir">Source ↗</a></footer>
+    <footer><a href="https://nipunkakkar.github.io/">← Nipun’s games</a><span>Two players. One good game.</span><a href="https://github.com/nipunkakkar/chess-noir">Source ↗</a></footer>
   </div>
   <dialog id="setup-dialog" class="setup-dialog">
     <form id="setup-form">
@@ -63,6 +58,6 @@
   <div id="toast" class="toast" role="status"></div>
   <noscript><p class="noscript">Enable JavaScript to play Chess Noir.</p></noscript>
   <script src="./vendor/itty-sockets.js"></script>
-  <script type="module" src="./app.js"></script>
+  <script type="module" src="./app.js?v=1.1.0"></script>
 </body>
 </html>

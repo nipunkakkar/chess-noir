@@ -1,6 +1,6 @@
 # Chess Noir
 
-A chess table for two, with an emerald board, original vector pieces, animated moves, capture effects and optional sound.
+A chess table for two with a focused charcoal interface, green-and-ivory or classic warm boards, original Staunton-style pieces, and animated moves.
 
 **[Play Chess Noir](https://nipunkakkar.github.io/chess-noir/)** · [All the games](https://nipunkakkar.github.io/)
 
@@ -8,7 +8,9 @@ A chess table for two, with an emerald board, original vector pieces, animated m
 - Legal moves, castling, en passant, four promotion choices, check and checkmate.
 - Automatic draws for stalemate, insufficient material, threefold repetition and the fifty-move rule. Players can also agree to a draw or resign.
 - Untimed games, 10-minute rapid, 5+3 blitz, or 15+10 leisurely games. Clocks start after White’s first move.
-- Move journal, captured pieces, board flipping and PGN downloads.
+- Move history, captured pieces, board flipping and PGN downloads.
+- Green and classic orange-brown board themes, with your choice remembered on this device.
+- Wooden move and capture sounds, plus distinct cues for check, castling, promotion and game end. Sound is on after your first interaction; use **Sound on/off** to mute. Your mute choice is remembered.
 - Local takebacks and saved same-device games. Responsive layout, touch, keyboard controls and reduced-motion support.
 
 ## Private rooms

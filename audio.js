@@ -1,17 +1,64 @@
+// Original wooden taps and attention cues synthesized locally with Web Audio.
 export class Sound {
-  constructor() { this.enabled = false; this.context = null; }
+  constructor() {
+    this.enabled = true; this.context = null; this.noise = null;
+    try { this.enabled = localStorage.getItem('chess-noir-sound') !== 'off'; } catch { /* Storage is optional. */ }
+  }
+  setEnabled(value) {
+    this.enabled = value;
+    try { localStorage.setItem('chess-noir-sound', value ? 'on' : 'off'); } catch { /* Storage is optional. */ }
+  }
   unlock() {
-    try { this.context ||= new (window.AudioContext || window.webkitAudioContext)(); this.context.resume(); } catch { /* Sound is optional. */ }
+    if (!this.enabled) return;
+    try {
+      const Audio = window.AudioContext || window.webkitAudioContext;
+      if (!Audio) return;
+      this.context ||= new Audio();
+      this.context.resume()?.catch(() => {});
+    } catch { /* Audio availability never blocks play. */ }
+  }
+  tone(at, frequency, duration, volume, endFrequency = frequency, type = 'sine') {
+    const ctx = this.context, oscillator = ctx.createOscillator(), gain = ctx.createGain();
+    oscillator.type = type; oscillator.frequency.setValueAtTime(frequency, at);
+    oscillator.frequency.exponentialRampToValueAtTime(endFrequency, at + duration);
+    gain.gain.setValueAtTime(.0001, at);
+    gain.gain.exponentialRampToValueAtTime(volume, at + .003);
+    gain.gain.exponentialRampToValueAtTime(.0001, at + duration);
+    oscillator.connect(gain).connect(ctx.destination); oscillator.start(at); oscillator.stop(at + duration + .01);
+  }
+  tap(at, heavy = false) {
+    const ctx = this.context;
+    if (!this.noise) {
+      this.noise = ctx.createBuffer(1, Math.ceil(ctx.sampleRate * .09), ctx.sampleRate);
+      const samples = this.noise.getChannelData(0);
+      for (let i = 0; i < samples.length; i++) samples[i] = Math.random() * 2 - 1;
+    }
+    const source = ctx.createBufferSource(), filter = ctx.createBiquadFilter(), gain = ctx.createGain();
+    source.buffer = this.noise; filter.type = 'bandpass'; filter.frequency.value = heavy ? 1100 : 1700; filter.Q.value = .8;
+    gain.gain.setValueAtTime(heavy ? .24 : .17, at); gain.gain.exponentialRampToValueAtTime(.0001, at + .055);
+    source.connect(filter).connect(gain).connect(ctx.destination); source.start(at); source.stop(at + .07);
+    this.tone(at, heavy ? 195 : 310, .085, heavy ? .23 : .16, heavy ? 75 : 115);
   }
   play(kind = 'move') {
     if (!this.enabled) return;
     this.unlock(); const ctx = this.context; if (!ctx) return;
-    const notes = kind === 'end' ? [392, 494, 587, 784] : kind === 'check' ? [330, 440] : kind === 'capture' ? [160, 110] : [420, 620];
-    notes.forEach((frequency, index) => {
-      const oscillator = ctx.createOscillator(), gain = ctx.createGain(), at = ctx.currentTime + index * .07;
-      oscillator.type = kind === 'capture' ? 'triangle' : 'sine'; oscillator.frequency.setValueAtTime(frequency, at);
-      gain.gain.setValueAtTime(0, at); gain.gain.linearRampToValueAtTime(.075, at + .008); gain.gain.exponentialRampToValueAtTime(.001, at + .17);
-      oscillator.connect(gain).connect(ctx.destination); oscillator.start(at); oscillator.stop(at + .2);
-    });
+    try {
+      const at = ctx.currentTime + .005;
+      if (kind === 'end') {
+        [392,494,587].forEach((note,index) => this.tone(at + index * .1,note,.25,.065,note,'triangle'));
+      } else {
+        this.tap(at, kind === 'capture');
+        if (kind === 'capture') this.tap(at + .045);
+        if (kind === 'castle') this.tap(at + .095);
+        if (kind === 'check') {
+          this.tone(at + .075,660,.14,.065,630,'triangle');
+          this.tone(at + .2,880,.2,.055,830,'triangle');
+        }
+        if (kind === 'promotion') {
+          this.tone(at + .09,660,.18,.055,660,'triangle');
+          this.tone(at + .19,990,.23,.05,990,'triangle');
+        }
+      }
+    } catch { /* Blocked or unavailable audio must not interrupt a move. */ }
   }
 }

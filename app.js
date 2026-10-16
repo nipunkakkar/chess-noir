@@ -1,8 +1,8 @@
 import { Chess } from './vendor/chess.js';
 import { Game, colorName, resultText } from './game.js';
 import { Room, validCode } from './network.js';
-import { pieceSVG, pieceName } from './pieces.js';
-import { Sound } from './audio.js';
+import { pieceSVG, pieceName } from './pieces.js?v=1.1.0';
+import { Sound } from './audio.js?v=1.1.0';
 
 const $ = id => document.getElementById(id), sound = new Sound();
 const files = 'abcdefgh', storageKey = 'chess-noir-local-v1';
@@ -156,7 +156,7 @@ function animateMove(move) {
   }
 }
 function update(next, explicitMove = null) {
-  const key = next.moves.join(' '), changed = key !== lastMoves, previousCount = state?.moves.length || 0;
+  const hadState = !!state, key = next.moves.join(' '), changed = key !== lastMoves, previousCount = state?.moves.length || 0;
   if (room && changed) {
     chess = new Chess(); for (const move of next.moves) chess.move(move);
   } else if (!room) chess = game.chess;
@@ -164,9 +164,10 @@ function update(next, explicitMove = null) {
   if (changed) selected = null;
   lastMoves = key;
   paint(); renderDetails(); renderClocks();
-  const move = explicitMove || (changed && next.moves.length > previousCount ? chess.history({ verbose: true }).at(-1) : null);
-  if (move) { animateMove(move); sound.play(next.result ? 'end' : chess.isCheck() ? 'check' : move.captured ? 'capture' : 'move'); announce(`${colorName(move.color)} played ${move.san}. ${$('status-title').textContent}.`); }
+  const move = explicitMove || (hadState && changed && next.moves.length > previousCount ? chess.history({ verbose: true }).at(-1) : null);
+  if (move) { animateMove(move); sound.play(next.result ? 'end' : chess.isCheck() ? 'check' : move.promotion ? 'promotion' : move.captured ? 'capture' : /[kq]/.test(move.flags) ? 'castle' : 'move'); announce(`${colorName(move.color)} played ${move.san}. ${$('status-title').textContent}.`); }
   if (next.result && JSON.stringify(next.result) !== displayedResult) {
+    if (hadState && !move) sound.play('end');
     displayedResult = JSON.stringify(next.result); const text = resultText(next.result);
     $('result-title').textContent = text.title; $('result-detail').textContent = text.detail + '. Thank you for a good game.';
     setTimeout(() => { if (state.result && !$('setup-dialog').open && !$('result-dialog').open) $('result-dialog').showModal(); }, 450);
@@ -179,7 +180,7 @@ function renderDetails() {
   $('session-label').textContent = state.result ? 'WELL PLAYED' : waiting ? 'A SEAT IS WAITING' : chess.isCheck() ? 'KING UNDER PRESSURE' : 'LET’S PLAY';
   $('status-title').textContent = end ? end.title : waiting ? (state.ready ? 'Game paused' : 'Invite a friend') : `${colorName(turn)} to move`;
   $('status-icon').textContent = state.result ? '♔' : turn === 'w' ? '♔' : '♚';
-  $('status-detail').textContent = end ? end.detail : waiting ? 'Play resumes when both players are connected.' : state.offer ? `${colorName(state.offer)} offers a draw. The other player can accept below.` : chess.isCheck() ? 'Your king needs a little attention. Find a safe move.' : state.moves.length ? `${state.names[turn]}, the next move is yours.` : 'Every great game begins with a single move.';
+  $('status-detail').textContent = end ? end.detail : waiting ? 'Play resumes when both players are connected.' : state.offer ? `${colorName(state.offer)} offers a draw. The other player can accept below.` : chess.isCheck() ? 'You are in check. Protect your king.' : state.moves.length ? `${state.names[turn]}, the next move is yours.` : 'Select a piece to get started.';
   $('connection-label').textContent = room ? (mode === 'host' ? 'You play White' : 'You play Black') : '2 players · one device';
   $('time-label').textContent = ({ none: '∞ Untimed', rapid: '10 min · Rapid', blitz: '5 + 3 · Blitz', relaxed: '15 + 10 · Leisurely' })[state.control];
   $('room-panel').hidden = !room;
@@ -208,7 +209,7 @@ function renderDetails() {
         }); history.append(row);
       }
       if (pinned) history.scrollTop = history.scrollHeight;
-    } else history.innerHTML = '<div class="empty-journal"><span aria-hidden="true">♙</span><p>A blank page.<br>Your opening is waiting.</p></div>';
+    } else history.innerHTML = '<div class="empty-journal"><span aria-hidden="true">♙</span><p>Your moves will appear here.</p></div>';
   }
   $('undo-button').disabled = !!room || !state.moves.length;
   $('undo-button').title = room ? 'Takebacks are available in same-device games.' : 'Undo the last move';
@@ -285,7 +286,24 @@ $('setup-form').onsubmit = async event => {
   finally { busy = false; $('start-button').disabled = false; }
 };
 $('flip-button').onclick = () => { orientation = orientation === 'w' ? 'b' : 'w'; buildBoard(); const first = $('player-' + (orientation === 'w' ? 'b' : 'w')), second = $('player-' + orientation); $('board').parentElement.before(first); $('board').parentElement.after(second); toast('Board flipped.'); };
-$('sound-button').onclick = () => { sound.enabled = !sound.enabled; if (sound.enabled) sound.play(); $('sound-button').innerHTML = '<span aria-hidden="true">♪</span> Sound ' + (sound.enabled ? 'on' : 'off'); $('sound-button').setAttribute('aria-pressed', String(sound.enabled)); };
+function renderSound() {
+  $('sound-button').innerHTML = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9Z" fill="currentColor" stroke="none"/>' + (sound.enabled ? '<path d="M16 8c2 2 2 6 0 8m3-11c4 4 4 10 0 14"/>' : '<path d="m17 9 5 6m0-6-5 6"/>') + '</svg> Sound ' + (sound.enabled ? 'on' : 'off');
+  $('sound-button').setAttribute('aria-pressed', String(sound.enabled));
+  $('sound-button').title = sound.enabled ? 'Mute game sounds' : 'Enable game sounds';
+}
+$('sound-button').onclick = () => { sound.setEnabled(!sound.enabled); if (sound.enabled) sound.play(); renderSound(); };
+document.addEventListener('pointerdown', () => sound.unlock(), { passive:true });
+document.addEventListener('keydown', () => sound.unlock(), { passive:true });
+function applyTheme(theme) {
+  theme = theme === 'classic' ? 'classic' : 'green';
+  document.documentElement.dataset.boardTheme = theme;
+  $('table-label').textContent = theme === 'classic' ? 'CLASSIC BOARD' : 'GREEN BOARD';
+  document.querySelectorAll('button[data-board-theme]').forEach(button => button.setAttribute('aria-pressed', String(button.dataset.boardTheme === theme)));
+  try { localStorage.setItem('chess-noir-theme',theme); } catch { /* Storage is optional. */ }
+}
+document.querySelectorAll('button[data-board-theme]').forEach(button => button.onclick = () => applyTheme(button.dataset.boardTheme));
+let savedTheme = 'green'; try { savedTheme = localStorage.getItem('chess-noir-theme') || 'green'; } catch { /* Use the default. */ }
+applyTheme(savedTheme); renderSound();
 $('undo-button').onclick = () => { if (!room && game.undo()) { selected = null; update(game.snapshot()); save(); toast('One move taken back.'); } };
 $('draw-button').onclick = async () => {
   if (!canPlay()) return;
