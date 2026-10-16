@@ -29,15 +29,18 @@ export class Sound {
   tap(at, heavy = false) {
     const ctx = this.context;
     if (!this.noise) {
-      this.noise = ctx.createBuffer(1, Math.ceil(ctx.sampleRate * .09), ctx.sampleRate);
+      this.noise = ctx.createBuffer(1, Math.ceil(ctx.sampleRate * .06), ctx.sampleRate);
       const samples = this.noise.getChannelData(0);
       for (let i = 0; i < samples.length; i++) samples[i] = Math.random() * 2 - 1;
     }
     const source = ctx.createBufferSource(), filter = ctx.createBiquadFilter(), gain = ctx.createGain();
-    source.buffer = this.noise; filter.type = 'bandpass'; filter.frequency.value = heavy ? 1100 : 1700; filter.Q.value = .8;
-    gain.gain.setValueAtTime(heavy ? .24 : .17, at); gain.gain.exponentialRampToValueAtTime(.0001, at + .055);
-    source.connect(filter).connect(gain).connect(ctx.destination); source.start(at); source.stop(at + .07);
-    this.tone(at, heavy ? 195 : 310, .085, heavy ? .23 : .16, heavy ? 75 : 115);
+    source.buffer = this.noise; filter.type = 'bandpass'; filter.frequency.value = heavy ? 1550 : 2350; filter.Q.value = .65;
+    gain.gain.setValueAtTime(heavy ? .38 : .29, at); gain.gain.exponentialRampToValueAtTime(.0001, at + .037);
+    source.connect(filter).connect(gain).connect(ctx.destination); source.start(at); source.stop(at + .055);
+    // Fixed, short resonances give a dry wooden clack without a pitch-slide beep.
+    this.tone(at, heavy ? 290 : 480, .043, heavy ? .16 : .11);
+    this.tone(at + .001, heavy ? 720 : 1180, .024, .055);
+    this.tone(at, heavy ? 1430 : 2260, .012, .035);
   }
   play(kind = 'move') {
     if (!this.enabled) return;

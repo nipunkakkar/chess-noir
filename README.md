@@ -1,6 +1,6 @@
 # Chess Noir
 
-A chess table for two with a focused charcoal interface, green-and-ivory or classic warm boards, original Staunton-style pieces, and animated moves.
+A chess table for two with a slate-and-copper interface, green-and-ivory or classic warm boards, original Staunton-style pieces, and animated moves.
 
 **[Play Chess Noir](https://nipunkakkar.github.io/chess-noir/)** · [All the games](https://nipunkakkar.github.io/)
 

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#302e2b">
+  <meta name="theme-color" content="#202733">
   <meta name="description" content="A little strategy. A little rivalry. Play beautiful two-player chess on one device or invite a friend to a private online room.">
   <meta property="og:title" content="Chess Noir — your move, good company">
   <meta property="og:description" content="Two players. Endless possibilities. A beautiful chess table for you and a friend.">
@@ -28,7 +28,7 @@
           <div class="board-tools"><button id="flip-button" class="text-button"><span aria-hidden="true">⇅</span> Flip board</button><span id="board-hint">Select a piece to see its moves</span><button id="sound-button" class="text-button" aria-pressed="true">Sound on</button></div>
         </section>
         <aside class="sidebar" aria-label="Game details and controls">
-          <section class="status-panel panel"><h1>Play chess</h1><p class="play-subtitle">Challenge a friend. Make your move.</p><div class="panel-eyebrow"><span id="session-label">LET’S PLAY</span></div><div class="status-heading"><span id="status-icon" class="status-icon" aria-hidden="true">♔</span><h2 id="status-title">White to move</h2></div><p id="status-detail">Select a piece to get started.</p><button id="new-game-button" class="primary-button"><span aria-hidden="true">＋</span> New game</button><div class="status-foot"><span id="time-label">∞ Untimed</span><span id="connection-label">2 players · one device</span></div></section>
+          <section class="status-panel panel"><h1>Your next move.</h1><p class="play-subtitle">One board. Good company.</p><div class="panel-eyebrow"><span id="session-label">LET’S PLAY</span></div><div class="status-heading"><span id="status-icon" class="status-icon" aria-hidden="true">♔</span><h2 id="status-title">White to move</h2></div><p id="status-detail">Select a piece to get started.</p><button id="new-game-button" class="primary-button"><span aria-hidden="true">＋</span> New game</button><div class="status-foot"><span id="time-label">∞ Untimed</span><span id="connection-label">2 players · one device</span></div></section>
           <section id="room-panel" class="room-panel panel" hidden><p class="panel-eyebrow">YOUR PRIVATE TABLE</p><div class="room-code"><strong id="room-code"></strong><button id="copy-button" class="icon-button" aria-label="Copy invitation link">↗</button></div><p id="room-message">Send the invitation link to a friend.</p><button id="reconnect-button" class="text-button" hidden>Reconnect to room ↻</button></section>
           <section class="history-panel panel"><div class="history-heading"><h2>Moves</h2><span id="move-count">00 MOVES</span></div><div class="journal-columns"><span>#</span><span>WHITE</span><span>BLACK</span></div><div id="history" class="history"><div class="empty-journal"><span aria-hidden="true">♙</span><p>Your moves will appear here.</p></div></div><button id="export-button" class="text-button export-button" disabled>Download game <span aria-hidden="true">↓</span></button></section>
           <div class="game-actions"><button id="undo-button" class="secondary-button" disabled>↶ Take back</button><button id="draw-button" class="secondary-button">½ Offer draw</button><button id="resign-button" class="text-button resign-button">Resign</button></div>
